@@ -2,21 +2,20 @@
 <html>
 
 <head>
-<title>AI Voice Interview</title>
 
-<link rel="stylesheet" href="/static/style.css">
+<title>AI Interview</title>
 
 </head>
 
 <body>
 
-<h2>AI Voice Interview</h2>
+<h2>AI Interview Started</h2>
+
+<h4>⏱ Time Left: <span id="timer">60</span></h4>
 
 <p id="question"></p>
 
 <button onclick="startInterview()">Start Interview</button>
-
-<br><br>
 
 <textarea id="answerBox" rows="4" cols="60"></textarea>
 
@@ -32,7 +31,7 @@
 
 let questions = [
 {% for question in questions %}
-"{{ question }}",
+"{{question}}",
 {% endfor %}
 ];
 
@@ -42,7 +41,6 @@ let currentQuestion = 0;
 function speak(text){
 
 let speech = new SpeechSynthesisUtterance(text);
-speech.lang="en-US";
 speechSynthesis.speak(speech);
 
 }
@@ -50,8 +48,6 @@ speechSynthesis.speak(speech);
 function startInterview(){
 
 currentQuestion = 0;
-answers = [];
-
 askQuestion();
 
 }
@@ -63,8 +59,6 @@ if(currentQuestion < questions.length){
 let q = questions[currentQuestion];
 
 document.getElementById("question").innerText = q;
-
-document.getElementById("answerBox").value = "";
 
 speak(q);
 
@@ -78,11 +72,9 @@ submitInterview();
 
 function startListening(){
 
-const recognition = new webkitSpeechRecognition();
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 
-recognition.lang="en-US";
-
-recognition.onresult=function(event){
+recognition.onresult = function(event){
 
 let answer = event.results[0][0].transcript;
 
@@ -96,9 +88,9 @@ recognition.start();
 
 function nextQuestion(){
 
-let answer = document.getElementById("answerBox").value;
+let ans = document.getElementById("answerBox").value;
 
-answers.push(answer);
+answers.push(ans);
 
 currentQuestion++;
 
@@ -126,8 +118,21 @@ form.submit();
 
 }
 
+let time = 60;
+
+setInterval(function(){
+
+if(time > 0){
+
+time--;
+
+document.getElementById("timer").innerText = time;
+
+}
+
+},1000);
+
 </script>
 
 </body>
-
 </html>
