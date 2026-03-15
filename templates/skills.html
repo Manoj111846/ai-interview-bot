@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Detected Skills</title>
+</head>
+
+<body>
+
+<h2>Detected Skills</h2>
+
+<ul>
+{% for skill in skills %}
+<li>{{skill}}</li>
+{% endfor %}
+</ul>
+
+<br>
+
+<a href="/start_interview">Start Interview</a>
+
+</body>
+</html>

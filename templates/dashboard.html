@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Interview Result</title>
+</head>
+
+<body>
+
+<h2>Your Interview Result</h2>
+
+<p>Score: {{score}}</p>
+
+<p>Total Questions: {{total_questions}}</p>
+
+<h3>Strong Skills</h3>
+
+<ul>
+{% for s in strong_skills %}
+<li>{{s}}</li>
+{% endfor %}
+</ul>
+
+<h3>Weak Skills</h3>
+
+<ul>
+{% for w in weak_skills %}
+<li>{{w}}</li>
+{% endfor %}
+</ul>
+
+<p>{{feedback}}</p>
+
+</body>
+</html>
