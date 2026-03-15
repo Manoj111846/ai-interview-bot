@@ -1,0 +1,12 @@
+navigator.mediaDevices.getUserMedia({video:true})
+.then(function(stream){
+
+let video=document.createElement("video");
+
+video.srcObject=stream;
+
+video.autoplay=true;
+
+document.body.appendChild(video);
+
+});

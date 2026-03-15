@@ -1,64 +1,53 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>AI Interview</title>
-
-</head>
-
-<body>
-
-<h2>AI Interview Started</h2>
-
-<h4>⏱ Time Left: <span id="timer">60</span></h4>
+<h2>AI Interview</h2>
 
 <p id="question"></p>
 
 <button onclick="startInterview()">Start Interview</button>
 
-<textarea id="answerBox" rows="4" cols="60"></textarea>
+<textarea id="answerBox"></textarea>
 
-<br><br>
+<button onclick="startListening()">🎤 Speak</button>
 
-<button onclick="startListening()">🎤 Speak Answer</button>
-
-<button onclick="nextQuestion()">Next Question</button>
+<button onclick="nextQuestion()">Next</button>
 
 <form id="resultForm" action="/evaluate" method="POST"></form>
 
+<script src="/static/camera.js"></script>
+
 <script>
 
-let questions = [
-{% for question in questions %}
-"{{question}}",
+let questions=[
+{% for q in questions %}
+"{{q}}",
 {% endfor %}
 ];
 
-let answers = [];
-let currentQuestion = 0;
+let answers=[];
+let currentQuestion=0;
 
 function speak(text){
 
-let speech = new SpeechSynthesisUtterance(text);
+let speech=new SpeechSynthesisUtterance(text);
+
 speechSynthesis.speak(speech);
 
 }
 
 function startInterview(){
 
-currentQuestion = 0;
+currentQuestion=0;
+
 askQuestion();
 
 }
 
 function askQuestion(){
 
-if(currentQuestion < questions.length){
+if(currentQuestion<questions.length){
 
-let q = questions[currentQuestion];
+let q=questions[currentQuestion];
 
-document.getElementById("question").innerText = q;
+document.getElementById("question").innerText=q;
 
 speak(q);
 
@@ -72,13 +61,11 @@ submitInterview();
 
 function startListening(){
 
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+const recognition=new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 
-recognition.onresult = function(event){
+recognition.onresult=function(event){
 
-let answer = event.results[0][0].transcript;
-
-document.getElementById("answerBox").value = answer;
+document.getElementById("answerBox").value=event.results[0][0].transcript;
 
 };
 
@@ -88,7 +75,7 @@ recognition.start();
 
 function nextQuestion(){
 
-let ans = document.getElementById("answerBox").value;
+let ans=document.getElementById("answerBox").value;
 
 answers.push(ans);
 
@@ -100,14 +87,16 @@ askQuestion();
 
 function submitInterview(){
 
-let form = document.getElementById("resultForm");
+let form=document.getElementById("resultForm");
 
 answers.forEach(function(ans){
 
-let input = document.createElement("input");
+let input=document.createElement("input");
 
 input.type="hidden";
+
 input.name="answers";
+
 input.value=ans;
 
 form.appendChild(input);
@@ -118,21 +107,4 @@ form.submit();
 
 }
 
-let time = 60;
-
-setInterval(function(){
-
-if(time > 0){
-
-time--;
-
-document.getElementById("timer").innerText = time;
-
-}
-
-},1000);
-
 </script>
-
-</body>
-</html>
