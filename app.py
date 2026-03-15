@@ -5,17 +5,9 @@ import os
 
 app = Flask(__name__)
 
-# -------------------------------
-# Skills database
-# -------------------------------
-
 skills_db = [
     "python","java","html","css","javascript","sql","machine learning"
 ]
-
-# -------------------------------
-# Questions database
-# -------------------------------
 
 questions_db = {
 
@@ -53,27 +45,15 @@ detected_skills_global = []
 generated_questions_global = []
 
 
-# -------------------------------
-# Home Page
-# -------------------------------
-
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# -------------------------------
-# Upload Resume Page
-# -------------------------------
-
 @app.route("/upload")
 def upload():
     return render_template("upload.html")
 
-
-# -------------------------------
-# Analyze Resume
-# -------------------------------
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
@@ -82,9 +62,6 @@ def analyze():
     global generated_questions_global
 
     file = request.files["resume"]
-
-    if file.filename == "":
-        return "No file uploaded"
 
     reader = PyPDF2.PdfReader(file)
 
@@ -109,17 +86,16 @@ def analyze():
             generated_questions.extend(questions_db[skill])
 
     if len(generated_questions) > 0:
-        generated_questions = random.sample(generated_questions, min(3,len(generated_questions)))
+        generated_questions = random.sample(
+            generated_questions,
+            min(3, len(generated_questions))
+        )
 
     detected_skills_global = detected_skills
     generated_questions_global = generated_questions
 
     return render_template("skills.html", skills=detected_skills)
 
-
-# -------------------------------
-# Start Interview
-# -------------------------------
 
 @app.route("/start_interview")
 def start_interview():
@@ -129,10 +105,6 @@ def start_interview():
         questions=generated_questions_global
     )
 
-
-# -------------------------------
-# Evaluate Answers
-# -------------------------------
 
 @app.route("/evaluate", methods=["POST"])
 def evaluate():
@@ -168,10 +140,6 @@ def evaluate():
         total_questions=total_questions
     )
 
-
-# -------------------------------
-# Run Server
-# -------------------------------
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT",10000))
