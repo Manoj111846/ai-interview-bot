@@ -1,3 +1,6 @@
 Flask
 gunicorn
 PyPDF2
+gTTS
+opencv-python
+numpy

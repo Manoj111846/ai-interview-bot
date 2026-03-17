@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome - AI Interview Bot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h1>Welcome to AI Interview Bot</h1>
+
+<p>
+This platform helps you prepare for job interviews using Artificial Intelligence.
+You can practice answering questions, improve your communication skills,
+and get feedback on your performance.
+</p>
+
+<p>
+The system will ask questions, record your answers, and analyze your performance
+based on confidence, clarity, and behavior.
+</p>
+
+<p>
+Click the button below to continue to login and start your interview journey.
+</p>
+
+<br><br>
+
+<button onclick="goToLogin()">Next ➡</button>
+
+<script>
+function goToLogin(){
+    window.location.href = "/login";
+}
+</script>
+
+</body>
+</html>

@@ -1,7 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Interview Result</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='chart.js') }}"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f2f2f2;
+text-align:center;
+}
+
+.container{
+width:70%;
+margin:auto;
+background:white;
+padding:30px;
+margin-top:50px;
+border-radius:10px;
+box-shadow:0px 0px 10px gray;
+}
+
+ul{
+list-style:none;
+padding:0;
+}
+
+li{
+background:#e6e6e6;
+margin:5px;
+padding:8px;
+border-radius:5px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+margin:10px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
 <h2>Interview Result</h2>
 
-<h3>Score: {{score}}</h3>
+<h3>Your Score: {{score}}</h3>
 
 <p>Total Questions: {{total_questions}}</p>
 
-<a href="/history">View Interview History</a>
+<h3>Strong Skills</h3>
+
+<ul>
+{% for skill in strong_skills %}
+<li>{{skill}}</li>
+{% endfor %}
+</ul>
+
+<h3>Weak Skills</h3>
+
+<ul>
+{% for skill in weak_skills %}
+<li>{{skill}}</li>
+{% endfor %}
+</ul>
+
+<h3>Skill Performance Graph</h3>
+
+<canvas id="skillChart" width="400" height="200"></canvas>
+
+<!-- Voice Feedback -->
+
+<audio autoplay style="display:none;">
+<source src="{{ url_for('static', filename='feedback.mp3') }}" type="audio/mpeg">
+</audio>
+
+<br>
+
+<a href="/history">
+<button>View Interview History</button>
+</a>
+
+<a href="/upload">
+<button>🔄 Retake Interview</button>
+</a>
+
+</div>
+
+<script>
+
+let skills = {{ detected_skills | tojson }};
+
+let scores = [];
+
+for(let i=0;i<skills.length;i++){
+
+if({{score}} >= 20){
+scores.push(80);
+}else{
+scores.push(40);
+}
+
+}
+
+loadChart(skills,scores);
+
+</script>
+
+</body>
+
+</html>
